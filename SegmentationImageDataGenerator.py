@@ -64,7 +64,7 @@ class SegmentationDataGenerator(tf.keras.utils.Sequence):
             class_index = self.class_dict[class_name]
             image_tensor = np.zeros(shape=(self.output_resolution[0], self.output_resolution[1], len(self.class_dict)))
             image_tensor[..., class_index] = tf.squeeze(image)
-            masks_tensors.append(image_tensor)
+            masks_tensors.append(image_tensor / 255)
         return tf.stack(masks_tensors)
 
     def on_epoch_end(self):

@@ -9,12 +9,10 @@ class DownscaleFusionBranch(tf.keras.Model):
         temp_out_filters = output_filters
         self.conv_layers = []
         while temp_out_filters > input_filters * 2:
-            conv = Conv2D(32, 3, 2, padding='same')
-            self.conv_layers.append(conv)
+            self.conv_layers.append(Conv2D(32, 3, 2, padding='same'))
             self.conv_layers.append(BatchNormalization(name='batch_norm_{0}'.format(output_filters)))
             temp_out_filters /= 2
-        final_conv = Conv2D(output_filters, 3, 2, padding='same')
-        self.conv_layers.append(final_conv)
+        self.conv_layers.append(Conv2D(output_filters, 3, 2, padding='same'))
         self.conv_layers.append(BatchNormalization(name='batch_norm_{0}'.format(output_filters)))
 
     def call(self, inputs, training=None, mask=None):
