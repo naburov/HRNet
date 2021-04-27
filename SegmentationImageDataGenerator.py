@@ -57,7 +57,7 @@ class SegmentationDataGenerator(tf.keras.utils.Sequence):
     def read_masks(self, masks_filenames):
         masks_tensors = []
         for name in masks_filenames:
-            class_name = name.split('\\')[-2]
+            class_name = name.split('/')[-2]
             image = tf.keras.preprocessing.image.load_img(name, color_mode='grayscale',
                                                           target_size=self.output_resolution)
             image = tf.keras.preprocessing.image.img_to_array(image)

@@ -33,7 +33,7 @@ class HRNet(tf.keras.Model):
         self.fusion_4 = FusionBlock_Stage_4(name='fusion_4')
 
         self.fusion_head = FusionHead(name='head')
-        self.out = Conv2D(out_classes, 3, 1, padding='same')
+        self.out = Conv2D(out_classes, 3, 1, padding='same', activation='sigmoid')
 
     def call(self, inputs, training=None, mask=None):
         b1 = self.stem(inputs, training=training)
