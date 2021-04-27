@@ -36,7 +36,7 @@ class HRNet(tf.keras.Model):
         self.fusion_4 = FusionBlock_Stage_4(name='fusion_4')
 
         self.fusion_head = FusionHead(name='head')
-        self.out = Conv2D(out_classes, 3, 1, padding='same')
+        self.out = Conv2D(out_classes, 3, 1, padding='same', activation='sigmoid')
 
     def call(self, inputs, training=None, mask=None):
         b1 = self.stem(inputs, training=training)
@@ -60,6 +60,6 @@ class HRNet(tf.keras.Model):
         b1, b2, b3, b4 = self.fusion_4([b1, b2, b3, b4], training=training)
         final = self.fusion_head([b1, b2, b3, b4], training=training)
         out = self.out(final, training=training)
-        out = tf.nn.softmax(out, axis=-1)
+        # out = tf.nn.softmax(out, axis=-1)
         out = tf.image.resize(out, self.input_size)
         return out
