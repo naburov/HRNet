@@ -9,8 +9,11 @@ from HRNetModules.BottleneckModule import Bottleneck
 
 
 class HRNet(tf.keras.Model):
-    def __init__(self, out_classes):
+    def __init__(self, out_classes, input_size=None):
         super(HRNet, self).__init__(name='hrnet')
+        if input_size is None:
+            input_size = [640, 640]
+        self.input_size = input_size
         self.stem = StemModule(name='stem_module')
 
         self.stage_1_branch_1 = BasicBlock(32, name='stage_1_branch_1')
@@ -57,5 +60,5 @@ class HRNet(tf.keras.Model):
         b1, b2, b3, b4 = self.fusion_4([b1, b2, b3, b4], training=training)
         final = self.fusion_head([b1, b2, b3, b4], training=training)
         out = self.out(final, training=training)
-        out = tf.image.resize(out, [int(inputs.shape[1]), int(inputs.shape[2])])
+        out = tf.image.resize(out, self.input_size)
         return out
