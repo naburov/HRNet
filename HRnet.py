@@ -57,4 +57,5 @@ class HRNet(tf.keras.Model):
         b1, b2, b3, b4 = self.fusion_4([b1, b2, b3, b4], training=training)
         final = self.fusion_head([b1, b2, b3, b4], training=training)
         out = self.out(final, training=training)
+        out = tf.image.resize(out, [inputs.shape[0], inputs.shape[1]])
         return out
